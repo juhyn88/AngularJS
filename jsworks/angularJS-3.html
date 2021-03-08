@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+    <script>
+        var myApp = angular.module('myApp', []);
+    
+        myApp.controller('myController', function($scope) {
+            $scope.initMenu = function() {
+                $scope.Menu = [
+                    {name : "짜장면" , price : "4000"}
+                    ,{name : "짬뽕" , price : "4500"}
+                    ,{name : "탕수육" , price : "11000"}
+                ];
+            }
+        });
+    </script>
+</head>
+<body>
+    
+    <div ng-app="myApp" ng-controller="myController"
+        ng-init="initMenu();">
+        
+        <table border="1">
+            <tr>
+                <td>메뉴명</td>
+                <td>가격</td>
+            </tr>
+            <tr ng-repeat="item in Menu">
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

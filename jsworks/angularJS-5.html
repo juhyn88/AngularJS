@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.angularjs.org/1.5.8/angular.min.js"></script>
+    <script>
+        var myApp = angular.module('myApp', []);
+    
+        myApp.controller('myController', function($scope) {
+            $scope.Menu = [
+                {name : "짜장면" , price : "4000"}
+                ,{name : "짬뽕" , price : "4500"}
+                ,{name : "탕수육" , price : "11000"}
+            ];
+
+            $scope.addMenu = function() {
+                var newMenu = {
+                    name : $scope.menu.name
+                    ,price : $scope.menu.price
+                };
+
+                $scope.Menu.push(newMenu);
+                $scope.menu = {
+                    name : null
+                    ,price : null
+                };
+            }
+        });
+
+    </script>
+</head>
+<body>
+
+    <div ng-app="myApp" ng-controller="myController">
+        <form ng-submit="addMenu();">
+            메뉴명 : <input type="text" ng-model="menu.name"> <br/>
+            가격 : <input type="text" ng-model="menu.price"> <br/>
+            <button type="submit">추가</button>
+        </form>
+        <table border="1">
+            <tr>
+                <td>메뉴명</td>
+                <td>가격</td>
+            </tr>
+            <tr ng-repeat="item in Menu">
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
