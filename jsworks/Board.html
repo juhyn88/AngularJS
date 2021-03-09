@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.angularjs.org/1.8.2/angular.min.js"></script>
+
+    <script>
+        var boardApp = angular.module('boardApp', []);
+
+        boardApp.controller('boardController', function($scope){
+
+            $scope.isBtnClick = false;
+
+            $scope.boardList = [
+                {
+                    no : 1
+                    ,name : "james" 
+                    ,email :"doing2658@aniss.kr"
+                    ,gender : "male"
+                    ,title : "TEST TITLE1"
+                    ,content : "hello world!"
+                }
+            ];
+
+            //게시글 추가
+            $scope.addBoard = function(){
+                var no = $scope.boardList[$scope.boardList.length-1].no+1;
+                var boardForm = {
+                    no  : no
+                    ,name : $scope.boardForm.name
+                    ,email : $scope.boardForm.email
+                    ,gender : $scope.boardForm.gender
+                    ,title : $scope.boardForm.title
+                    ,content : $scope.boardForm.content
+                };
+                $scope.boardList.push(boardForm);
+                $scope.boardForm = {
+                    name : null
+                    ,email : null
+                    ,gender : null
+                    ,title : null
+                    ,content : null 
+                };
+            }
+
+            //게시글 상세보기
+            $scope.goDetail = function(no){
+
+                var detailBoard = {};
+                for(var i=0;i<$scope.boardList.length;i++){
+                    if($scope.boardList[i].no == no){
+                        detailBoard = $scope.boardList[i];
+                        break;
+                    }
+                }              
+                $scope.detail = {
+                    no                  : no
+                    ,name               : detailBoard.name
+                    ,email              : detailBoard.email
+                    ,gender             : detailBoard.gender
+                    ,title              : detailBoard.title
+                    ,content            : detailBoard.content
+                };
+                console.log("detailBoard : ",detailBoard);
+                console.log("detail : ", $scope.detail);
+                
+                $scope.isBtnClick = !$scope.isBtnClick;
+            }
+            //게시글 삭제
+            $scope.goDelete = function(no){
+
+                
+                for(var i=0;i<$scope.boardList.length;i++){
+                    if($scope.boardList[i].no == no){
+                        $scope.boardList.splice(i, 1);
+                    }
+                }
+            }
+            //게시글 수정
+            $scope.updateBoard = function(){
+                var detailBoard = $scope.detail;
+                console.log("detailBoard : ",detailBoard);
+                for(var i=0;i<$scope.boardList.length; i++){
+                    if($scope.boardList[i].no == detailBoard.no){
+
+                        $scope.boardList[i].name = detailBoard.name;
+                        $scope.boardList[i].email = detailBoard.email;
+                        $scope.boardList[i].gender = detailBoard.gender;
+                        $scope.boardList[i].title = detailBoard.title;
+                        $scope.boardList[i].content = detailBoard.content;
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <div ng-app="boardApp" ng-controller="boardController">
+        <form ng-submit="addBoard();">
+            이름 : <input type="text" ng-model="boardForm.name"><br/>
+            이메일 : <input type="text" ng-model="boardForm.email"><br/>
+            성별 : 
+            <input type="radio" id="female" 
+                    name="gender" value="female"
+                    ng-model="boardForm.gender">
+            <label for="female">여자</label>
+
+            <input type="radio" 
+                    id="male" 
+                    name="gender" 
+                    value="male"
+                    ng-model="boardForm.gender">
+            <label for="male">남자</label><br/>
+            제목 : <input type="text" ng-model="boardForm.title"><br/>
+            내용 : <input type="text" ng-model="boardForm.content"><br/>
+            <button type="submit">추가</button>
+        </form>
+        <!-- list Table -->
+        <table border="1">
+            <tr>
+                <td>No.</td>
+                <td>이름</td>
+                <td>이메일</td>
+                <td>성별</td>
+                <td>제목</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- data view -->
+            <tr ng-repeat="board in boardList">
+                <td>{{board.no}}</td>
+                <td>{{board.name}}</td>
+                <td>{{board.email}}</td>
+                <td>{{board.gender}}</td>
+                <td>{{board.title}}</td>
+                <td>
+                    <button ng-click="goDetail(board.no);">
+                        상세보기</button>
+                </td>
+                <td>
+                    <button ng-click="goDelete(board.no);">
+                        삭제</button>
+                </td>
+            </tr>
+        </table>
+        <!-- detail Table -->
+        <div ng-show="isBtnClick">
+            <table border="1">
+                <tr>
+                   <td>No.</td> 
+                   <td><input type="text" readonly
+                            ng-model="detail.no"></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td><input type="text"
+                                ng-model="detail.name"></td>
+                </tr>
+                <tr>
+                    <td>이메일</td>
+                    <td><input type="text"
+                                ng-model="detail.email"></td>
+                </tr>
+                <tr>
+                    <td>성별</td>
+                    <td>
+                        <input type="radio" id="female" 
+                                name="gender" value="female"
+                                ng-model="detail.gender">
+                        <label for="female">여자</label>
+    
+                        <input type="radio" 
+                                id="male" 
+                                name="gender" 
+                                value="male"
+                                ng-model="detail.gender">
+                        <label for="male">남자</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text"
+                                ng-model="detail.title"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><input type="text"
+                                ng-model="detail.content"></td>
+                </tr>
+            </table>
+            <button type="button"
+                    ng-click="updateBoard();">수정하기</button>
+        </div>
+    </div>
+</body>
+</html>
