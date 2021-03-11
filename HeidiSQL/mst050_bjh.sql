@@ -1,0 +1,16 @@
+CREATE TABLE mst050_bjh (
+	sok_cd VARCHAR(4)
+	,sok_na1 VARCHAR(60)
+	,sok_kana VARCHAR(60)
+	,sok_kbn INT(4)
+	,sok_yubin VARCHAR(10)
+	,sok_ju1 VARCHAR(60)
+	,sok_ju2 VARCHAR(60)
+	,sok_tel VARCHAR(15)
+	,sok_fax VARCHAR(15)
+	,tant_na1 VARCHAR(20)
+	,sok_jun VARCHAR(8)
+	,sok_tokcd VARCHAR(9)
+	,sok_sircd VARCHAR(9)
+	,PRIMARY KEY (sok_cd)
+);
